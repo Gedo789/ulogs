@@ -274,9 +274,15 @@ ULogs.CanSee = function( Player )
 	
 	if !Player or !Player:IsValid() or !Player:IsPlayer() then return false end
 	
-	if ULogs.config.OnlyUseCustom or type( Player.IsUserGroup ) != "function" then -- If OnlyUseCustom or if ULX is not installed
+	if ULogs.config.OnlyUseCustom then -- If OnlyUseCustom
 		
 		if ULogs.config.CanSeeCustom( Player ) then return true end
+		
+		return false
+	
+	elseif ulx == nil then -- Or if ULX is not installed
+		
+		if table.HasValue(ULogs.CAMI.PlayersPrivileges.CanSee,Player) then return true end -- Check using CAMI
 		
 		return false
 	
@@ -300,9 +306,15 @@ ULogs.CanSeeIP = function( Player )
 	
 	if !Player or !Player:IsValid() or !Player:IsPlayer() then return false end
 	
-	if ULogs.config.OnlyUseCustom or type( Player.IsUserGroup ) != "function" then -- If OnlyUseCustom or if ULX is not installed
+	if ULogs.config.OnlyUseCustom then -- If OnlyUseCustom
 		
 		if ULogs.config.SeeIPCustom( Player ) then return true end
+		
+		return false
+	
+	elseif ulx == nil then -- Or if ULX is not installed
+		
+		if table.HasValue(ULogs.CAMI.PlayersPrivileges.SeeIP,Player) then return true end -- Check using CAMI
 		
 		return false
 	
@@ -326,9 +338,15 @@ ULogs.CanDelete = function( Player )
 	
 	if !Player or !Player:IsValid() or !Player:IsPlayer() then return false end
 	
-	if ULogs.config.OnlyUseCustom or type( Player.IsUserGroup ) != "function" then -- If OnlyUseCustom or if ULX is not installed
+	if ULogs.config.OnlyUseCustom then -- If OnlyUseCustom
 		
 		if ULogs.config.DeleteCustom( Player ) then return true end
+		
+		return false
+	
+	elseif ulx == nil then -- Or if ULX is not installed
+		
+		if table.HasValue(ULogs.CAMI.PlayersPrivileges.Delete,Player) then return true end -- Check using CAMI
 		
 		return false
 	
@@ -595,6 +613,60 @@ concommand.Add( ULogs.config.ConCommand, function( Player ) -- Logs menu console
 	
 	ULogs.OpenMenu( Player )
 	
+end)
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------
+-- CAMI implementation by Gedo789 - V1
+-- Purposes: Register ULogs privileges to CAMI and keep a copy of players who got rights for using ULogs privileges.
+--           Update the cache if a player has changed in CAMI.
+--           CAMI is a interface for compatibility with multiples admin mods which support CAMI.
+--------------------------------------------------------------------------------------------------------------------
+
+
+
+CAMI.RegisterPrivilege({Name="ULogs.CanSee",MinAccess="admin"}) -- Register a CAMI privilege for ULogs.CanSee
+CAMI.RegisterPrivilege({Name="ULogs.SeeIP",MinAccess="superadmin"}) -- Register a CAMI privilege for ULogs.SeeIP
+CAMI.RegisterPrivilege({Name="ULogs.Delete",MinAccess="superadmin"}) -- Register a CAMI privilege for ULogs.Delete
+ULogs.CAMI={} -- Create a table for CAMI.
+ULogs.CAMI.PlayersPrivileges={} -- Create a table for see which players are allowed to X.
+ULogs.CAMI.PlayersPrivileges.CanSee={} -- Get players with access to ULogs.CanSee privilege.
+ULogs.CAMI.PlayersPrivileges.SeeIP={} -- Get players with access to ULogs.SeeIP.
+ULogs.CAMI.PlayersPrivileges.Delete={} -- Get players with access to ULogs.Delete.
+function ULogs_CAMI_UpdateCache(cache,ply,allowed)
+if cache != ULogs.CAMI.PlayersPrivileges.CanSee or cache != ULogs.CAMI.PlayersPrivileges.SeeIP or cache != ULogs.CAMI.PlayersPrivileges.Delete then return end
+if cache == ULogs.CAMI.PlayersPrivileges.CanSee then
+	if table.HasValue(ULogs.CAMI.PlayersPrivileges.CanSee,ply) and !allowed then
+		table.RemoveByValue(ULogs.CAMI.PlayersPrivileges.CanSee,ply)
+	else
+		ULogs.CAMI.PlayersPrivileges.CanSee[#ULogs.CAMI.PlayersPrivileges.CanSee+1]=ply
+	end
+elseif cache == ULogs.CAMI.PlayersPrivileges.SeeIP then
+	if table.HasValue(ULogs.CAMI.PlayersPrivileges.SeeIP,ply) and !allowed then
+		table.RemoveByValue(ULogs.CAMI.PlayersPrivileges.SeeIP,ply)
+	else
+		ULogs.CAMI.PlayersPrivileges.SeeIP[#ULogs.CAMI.PlayersPrivileges.SeeIP+1]=ply
+	end
+elseif cache == ULogs.CAMI.PlayersPrivileges.Delete then
+	if table.HasValue(ULogs.CAMI.PlayersPrivileges.Delete,ply) and !allowed then
+		table.RemoveByValue(ULogs.CAMI.PlayersPrivileges.Delete,ply)
+	else
+		ULogs.CAMI.PlayersPrivileges.Delete[#ULogs.CAMI.PlayersPrivileges.Delete+1]=ply
+	end
+end
+end
+CAMI.GetPlayersWithAccess("ULogs.CanSee",function(players) ULogs.CAMI.PlayersPrivileges.CanSee=players end) -- Cache CAMI's callbacks
+CAMI.GetPlayersWithAccess("ULogs.SeeIP",function(players) ULogs.CAMI.PlayersPrivileges.SeeIP=players end)
+CAMI.GetPlayersWithAccess("ULogs.Delete",function(players) ULogs.CAMI.PlayersPrivileges.Delete=players end) -- Done
+hook.Add("CAMI.PlayerUsergroupChanged","ULogs.CAMI.UpdateCache",function(ply)
+-- Here we go, the cache of CAMI is now invalid because CAMI has notified a change about a player.
+-- This cache will now be updated for checking if the player have access to a ULogs privilege, or not.
+CAMI.PlayerHasAccess(ply,"ULogs.CanSee",function(allowed) ULogs_CAMI_UpdateCache(ULogs.CAMI.PlayersPrivileges.CanSee,ply,allowed) end)
+CAMI.PlayerHasAccess(ply,"ULogs.SeeIP",function(allowed) ULogs_CAMI_UpdateCache(ULogs.CAMI.PlayersPrivileges.SeeIP,ply,allowed) end)
+CAMI.PlayerHasAccess(ply,"ULogs.Delete",function(allowed) ULogs_CAMI_UpdateCache(ULogs.CAMI.PlayersPrivileges.Delete,ply,allowed) end)
 end)
 
 
