@@ -19,14 +19,14 @@
 local INDEX = 3
 local GM = 0
 
-ULogs.AddLogType( INDEX, GM, "Command", function( Cmd, Player )
+ULogs.AddLogType( INDEX, GM, ULogs.translation.Command, function( Cmd, Player )
 	
 	if !Cmd then return end
 	if !Player or !Player:IsValid() or !Player:IsPlayer() then return end
 	
 	local Informations = {}
 	local Base = ULogs.RegisterBase( Player )
-	table.insert( Informations, { "Copy command", Cmd } )
+	table.insert( Informations, { ULogs.translation.CopyCommand, Cmd } )
 	local Data = {}
 	Data[ 1 ] = Player:Name()
 	Data[ 2 ] = {}
@@ -47,7 +47,7 @@ function concommand.Run( Player, Cmd, Args )
 			
 			if !table.HasValue( ULogs.config.IgnoreCommands, Cmd ) then
 				
-				ULogs.AddLog( INDEX, ULogs.PlayerInfo( Player ) .. " entered '" .. Cmd .. "'",
+				ULogs.AddLog( INDEX, ULogs.PlayerInfo( Player ) .. " "..string.lower(ULogs.translation.Entered).." '" .. Cmd .. "'",
 					ULogs.Register( INDEX, Cmd, Player ) )
 				
 			end
