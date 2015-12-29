@@ -393,7 +393,7 @@ ULogs.OpenMenu = function( Delete )
 	
 	local CategoryTitle = vgui.Create( "DLabel", Main )
 	CategoryTitle:SetColor( Color( 255, 255, 255, 255 ) )
-	CategoryTitle:SetFont( "ERPLogs_Title" )
+	CategoryTitle:SetFont( "Default" )
 	CategoryTitle:SetPos( 160, 35 )
 	CategoryTitle.Think = function()
 		if ULogs.RefreshCategory then
@@ -617,6 +617,7 @@ ULogs.OpenMenu = function( Delete )
 	List:AddItem( Button )
 	
 	local Button = vgui.Create( "ULogs_DButton" )
+<<<<<<< HEAD
 	Button:SetText( ULogs.translation.Debug )
 	Button.DoClick = function()
 		ULogs.GetOptions()
@@ -632,6 +633,11 @@ ULogs.OpenMenu = function( Delete )
 			end
 		end
 		chat.AddText( Color( 255, 100, 0 ), "[" .. ULogs.config.Title .. "] ", Color( 255, 0, 0 ), "---------------" )
+=======
+	Button:SetText( "Forum" )
+	Button.DoClick = function()
+		gui.OpenURL( "https://facepunch.com/showthread.php?t=1498803" )
+>>>>>>> refs/remotes/myrage2000/master
 	end
 	List:AddItem( Button )
 	
