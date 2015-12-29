@@ -26,7 +26,7 @@ ULogs.AddLogType( INDEX, GM, "Chat", function( Message, Player )
 	
 	local Informations = {}
 	local Base = ULogs.RegisterBase( Player )
-	table.insert( Informations, { "Copy message", Message } )
+	table.insert( Informations, { ULogs.translation.CopyMessage, Message } )
 	local Data = {}
 	Data[ 1 ] = Player:Name()
 	Data[ 2 ] = {}
@@ -47,7 +47,7 @@ hook.Add( "PlayerSay", "ULogs_PlayerSay", function( Player, Message, Team )
 	end
 	local Prefix = ""
 	if Team then Prefix = "TEAM Chat : " end
-	ULogs.AddLog( INDEX, Prefix .. ULogs.PlayerInfo( Player ) .. " said '" .. Message .. "'",
+	ULogs.AddLog( INDEX, Prefix .. ULogs.PlayerInfo( Player ) .. " "..string.lower(ULogs.translation.Said).." '" .. Message .. "'",
 		ULogs.Register( INDEX, Message, Player ) )
 	
 end)
