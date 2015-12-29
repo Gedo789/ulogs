@@ -618,22 +618,6 @@ ULogs.OpenMenu = function( Delete )
 	
 	local Button = vgui.Create( "ULogs_DButton" )
 
-	Button:SetText( ULogs.translation.Debug )
-	Button.DoClick = function()
-		ULogs.GetOptions()
-		chat.AddText( Color( 255, 100, 0 ), "[" .. ULogs.config.Title .. "] ", Color( 255, 0, 0 ), "----- "..ULogs.translation.Debug.." -----" )
-		chat.AddText( Color( 255, 100, 0 ), "[" .. ULogs.config.Title .. "] ", Color( 255, 255, 255 ), ULogs.translation.Table.." : '" .. ULogs.config.TableName .. "'" )
-		chat.AddText( Color( 255, 100, 0 ), "[" .. ULogs.config.Title .. "] ", Color( 255, 255, 255 ), ULogs.translation.LinesPages.." : '" .. ULogs.config.Lines .. "'" )
-		chat.AddText( Color( 255, 100, 0 ), "[" .. ULogs.config.Title .. "] ", Color( 255, 255, 255 ), ULogs.translation.TimeOut.." : '" .. ULogs.config.MaxLoadTime .. "'" )		
-		chat.AddText( Color( 255, 100, 0 ), "[" .. ULogs.config.Title .. "] ", Color( 255, 255, 255 ), ULogs.translation.Limit.." : '" .. ULogs.config.Limit .. "'" )
-		chat.AddText( Color( 255, 100, 0 ), "[" .. ULogs.config.Title .. "] ", Color( 255, 255, 255 ), "CBlock : " )
-		for k, v in pairs( ULogs.Block ) do
-			if v then
-				chat.AddText( Color( 255, 100, 0 ), "[" .. ULogs.config.Title .. "] ", Color( 255, 255, 255 ), "     - '" .. ULogs.LogTypes[ k ].Name .. "'" )
-			end
-		end
-		chat.AddText( Color( 255, 100, 0 ), "[" .. ULogs.config.Title .. "] ", Color( 255, 0, 0 ), "---------------" )
-
 	Button:SetText( ULogs.translation.Forum )
 	Button.DoClick = function()
 		gui.OpenURL( "https://facepunch.com/showthread.php?t=1498803" )
