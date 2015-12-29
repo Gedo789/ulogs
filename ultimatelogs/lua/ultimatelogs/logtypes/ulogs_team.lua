@@ -19,7 +19,7 @@
 local INDEX = 6
 local GM = 0
 
-ULogs.AddLogType( INDEX, GM, "Team", function( Player )
+ULogs.AddLogType( INDEX, GM, ULogs.translation.Team, function( Player )
 	
 	if !Player or !Player:IsValid() or !Player:IsPlayer() then return end
 	
@@ -42,7 +42,7 @@ hook.Add( "OnPlayerChangedTeam", "ULogs_OnPlayerChangedTeam", function( Player, 
 	if !OldTeam then return end
 	if !NewTeam then return end
 	
-	ULogs.AddLog( INDEX, ULogs.PlayerInfo( Player ) .. " changed his team from '" .. team.GetName( OldTeam ) .. "' to '" .. team.GetName( NewTeam ) .. "'",
+	ULogs.AddLog( INDEX, ULogs.PlayerInfo( Player ) .. " "..string.lower(ULogs.translation.ChangedTeam).." '" .. team.GetName( OldTeam ) .. "' "..string.lower(ULogs.translation.To).." '" .. team.GetName( NewTeam ) .. "'",
 		ULogs.Register( INDEX, Player ) )
 	
 end)
