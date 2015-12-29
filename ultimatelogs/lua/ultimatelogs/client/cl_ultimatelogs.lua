@@ -79,7 +79,7 @@ end
 
 ULogs.Copy = function( Str )
 	
-	chat.AddText( Color( 255, 100, 0 ), "[" .. ULogs.config.Title .. "] ", Color( 255, 255, 255 ), "'" .. Str .. "' copied" )
+	chat.AddText( Color( 255, 100, 0 ), "[" .. ULogs.config.Title .. "] ", Color( 255, 255, 255 ), "'" .. Str .. "' "..string.lower(ULogs.translation.Copied) )
 	SetClipboardText( Str )
 	
 end
@@ -206,8 +206,8 @@ ULogs.OpenMenu = function( Delete )
 	LogList:SetPos( 155, 55 )
 	LogList:SetSize( Main:GetWide() - 158, Main:GetTall() - 85 )
 	LogList:SetMultiSelect( false )
-	local DateColumn = LogList:AddColumn( "Date / Time" )
-	LogList:AddColumn( "Action / Log" )
+	local DateColumn = LogList:AddColumn( ULogs.translation.DateTime )
+	LogList:AddColumn( ULogs.translation.ActionLog )
 	DateColumn:SetFixedWidth( 150 )
 	timer.Simple( .1, function()
 		if !DateColumn then return end
@@ -218,12 +218,12 @@ ULogs.OpenMenu = function( Delete )
 	LogList.OnRowRightClick = function( panel , line )
 		
 		local Menu = ULogs_DermaMenu()
-		Menu:AddOption( "Copy line", function()
+		Menu:AddOption( ULogs.translation.CopyLine, function()
 			
 			ULogs.Copy( "[" .. panel:GetLine( line ):GetValue( 1 ) .. "] " .. panel:GetLine( line ):GetValue( 2 ) )
 			
 		end)
-		Menu:AddOption( "Copy date", function()
+		Menu:AddOption( ULogs.translation.CopyDate, function()
 			
 			ULogs.Copy( panel:GetLine( line ):GetValue( 1 ) )
 			
@@ -293,7 +293,7 @@ ULogs.OpenMenu = function( Delete )
 		
 	end
 	
-	local SearchDefaultText = "Search ALL Logs ..."
+	local SearchDefaultText = ULogs.translation.SearchDefaultText
 	local Search = vgui.Create( "ULogs_DTextEntry", Main )
 	Search:SetMultiline( false )
 	Search:SetPos( 3, Main:GetTall() - 28 )
@@ -314,8 +314,8 @@ ULogs.OpenMenu = function( Delete )
 	local ChoosePlayer = vgui.Create( "ULogs_DComboBox", Main )
 	ChoosePlayer:SetPos( 256, Main:GetTall() - 28 )
 	ChoosePlayer:SetSize( 200, 25 )
-	ChoosePlayer:SetValue( "Choose Player" )
-	ChoosePlayer:AddChoice( "Choose Player" )
+	ChoosePlayer:SetValue( ULogs.translation.ChoosePlayer )
+	ChoosePlayer:AddChoice( ULogs.translation.ChoosePlayer )
 	
 	Search.OnEnter = function()
 		ChoosePlayer:SetText( ChoosePlayer:GetOptionText( 1 ) )
@@ -344,7 +344,7 @@ ULogs.OpenMenu = function( Delete )
 		else
 			
 			if Mode == 3 then
-				chat.AddText( Color( 255, 100, 0 ), "[" .. ULogs.config.Title .. "] ", Color( 255, 255, 255 ), "Selected player is invalid" )
+				chat.AddText( Color( 255, 100, 0 ), "[" .. ULogs.config.Title .. "] ", Color( 255, 255, 255 ), ULogs.translation.SelectedPlayerInvalid )
 				ChoosePlayer:SetText( ChoosePlayer:GetOptionText( 1 ) )
 				ChoosePlayer.selected = 1
 				Mode = 1
@@ -402,9 +402,9 @@ ULogs.OpenMenu = function( Delete )
 			
 			local Options = ""
 			if Mode == 2 then
-				Options = " - Search for " .. Search:GetValue()
+				Options = " - "..ULogs.translation.SearchFor.." " .. Search:GetValue()
 			elseif Mode == 3 then
-				Options = " - Search for " .. ChoosePlayer:GetValue()
+				Options = " - "..ULogs.translation.SearchFor.." " .. ChoosePlayer:GetValue()
 			end
 			CategoryTitle:SetText( SelectedButtonText .. Options )
 			CategoryTitle:SizeToContents()
@@ -415,7 +415,7 @@ ULogs.OpenMenu = function( Delete )
 	local ResetButton = vgui.Create( "ULogs_DButton", Main )
 	ResetButton:SetSize( 40, 25 )
 	ResetButton:SetPos( 459, Main:GetTall() - 28 )
-	ResetButton:SetText( "Reset" )
+	ResetButton:SetText( ULogs.translation.Reset )
 	ResetButton.DoClick = function()
 		ChoosePlayer:SetText( ChoosePlayer:GetOptionText( 1 ) )
 		ChoosePlayer.selected = 1
@@ -431,13 +431,13 @@ ULogs.OpenMenu = function( Delete )
 	SetPage:SetPos( Main:GetWide() - 298, Main:GetTall() - 28 )
 	SetPage:SetText( "?" )
 	SetPage.DoClick = function()
-		ULogs_Derma_StringRequest( ULogs.config.Title, "Set page to", "", function( NewPage )
+		ULogs_Derma_StringRequest( ULogs.config.Title, ULogs.translation.SetPageTo, "", function( NewPage )
 			NewPage = tonumber( NewPage )
 			if type( NewPage ) != "number" then NewPage = 1 end
 			if NewPage < 1 or NewPage > ULogs.Pages then NewPage = 1 end
 			Page = math.floor( NewPage )
 			ChangePage()
-		end, nil, "Set" )
+		end, nil, ULogs.translation.Set, ULogs.translation.Cancel )
 	end
 	
 	local PageLastLeft = vgui.Create( "ULogs_DButton", Main )
@@ -591,13 +591,13 @@ ULogs.OpenMenu = function( Delete )
 	local Button = vgui.Create( "ULogs_DButton" )
 	Button.Category = true
 	Button:SetDisabled( true )
-	Button:SetText( "Tools" )
+	Button:SetText( ULogs.translation.Tools )
 	List:AddItem( Button )
 	
 	if Delete then
 		
 		local Button = vgui.Create( "ULogs_RDButton" )
-		Button:SetText( "Remove Logs" )
+		Button:SetText( ULogs.translation.RemoveLogs )
 		Button.DoClick = function()
 			if Delete then
 				Main:Close()
@@ -609,7 +609,7 @@ ULogs.OpenMenu = function( Delete )
 	end
 	
 	local Button = vgui.Create( "ULogs_DButton" )
-	Button:SetText( "Options" )
+	Button:SetText( ULogs.translation.Options )
 	Button.DoClick = function()
 			Main:Close()
 			ULogs.OpenOptionsMenu()
@@ -617,14 +617,14 @@ ULogs.OpenMenu = function( Delete )
 	List:AddItem( Button )
 	
 	local Button = vgui.Create( "ULogs_DButton" )
-	Button:SetText( "Debug" )
+	Button:SetText( ULogs.translation.Debug )
 	Button.DoClick = function()
 		ULogs.GetOptions()
-		chat.AddText( Color( 255, 100, 0 ), "[" .. ULogs.config.Title .. "] ", Color( 255, 0, 0 ), "----- Debug -----" )
-		chat.AddText( Color( 255, 100, 0 ), "[" .. ULogs.config.Title .. "] ", Color( 255, 255, 255 ), "Table : '" .. ULogs.config.TableName .. "'" )
-		chat.AddText( Color( 255, 100, 0 ), "[" .. ULogs.config.Title .. "] ", Color( 255, 255, 255 ), "Lines/Pages : '" .. ULogs.config.Lines .. "'" )
-		chat.AddText( Color( 255, 100, 0 ), "[" .. ULogs.config.Title .. "] ", Color( 255, 255, 255 ), "TimeOut : '" .. ULogs.config.MaxLoadTime .. "'" )		
-		chat.AddText( Color( 255, 100, 0 ), "[" .. ULogs.config.Title .. "] ", Color( 255, 255, 255 ), "Limit : '" .. ULogs.config.Limit .. "'" )
+		chat.AddText( Color( 255, 100, 0 ), "[" .. ULogs.config.Title .. "] ", Color( 255, 0, 0 ), "----- "..ULogs.translation.Debug.." -----" )
+		chat.AddText( Color( 255, 100, 0 ), "[" .. ULogs.config.Title .. "] ", Color( 255, 255, 255 ), ULogs.translation.Table.." : '" .. ULogs.config.TableName .. "'" )
+		chat.AddText( Color( 255, 100, 0 ), "[" .. ULogs.config.Title .. "] ", Color( 255, 255, 255 ), ULogs.translation.LinesPages.." : '" .. ULogs.config.Lines .. "'" )
+		chat.AddText( Color( 255, 100, 0 ), "[" .. ULogs.config.Title .. "] ", Color( 255, 255, 255 ), ULogs.translation.TimeOut.." : '" .. ULogs.config.MaxLoadTime .. "'" )		
+		chat.AddText( Color( 255, 100, 0 ), "[" .. ULogs.config.Title .. "] ", Color( 255, 255, 255 ), ULogs.translation.Limit.." : '" .. ULogs.config.Limit .. "'" )
 		chat.AddText( Color( 255, 100, 0 ), "[" .. ULogs.config.Title .. "] ", Color( 255, 255, 255 ), "CBlock : " )
 		for k, v in pairs( ULogs.Block ) do
 			if v then
@@ -646,7 +646,7 @@ ULogs.OpenMenu = function( Delete )
 		
 		if ULogs.IsLoading and ULogs.LoadingTime < CurTime() then
 			ULogs.IsLoading = false
-			chat.AddText( Color( 255, 100, 0 ), "[" .. ULogs.config.Title .. "] ", Color( 255, 0, 0 ), "Can't receive logs data : Timed out" )
+			chat.AddText( Color( 255, 100, 0 ), "[" .. ULogs.config.Title .. "] ", Color( 255, 0, 0 ), ULogs.translation.LogsReceptionUnable )
 		end
 		
 		if ULogs.NeedLogUpdate then
@@ -710,17 +710,17 @@ ULogs.OpenDeleteMenu = function()
 		if ULogs.GMTypes[ v.GM ] and ULogs.GMTypes[ v.GM ].Name then
 			Info = ULogs.GMTypes[ v.GM ].Name .. " "
 		end
-		Button:SetText( "Delete " .. Info .. v.Name .. " logs" )
+		Button:SetText( ULogs.translation.Delete.." " .. Info .. v.Name .. " "..string.lower(ULogs.translation.Logs) )
 		Button.DoClick = function( self )
 			
-			ULogs_Delete_Derma_Query( "Do you want to delete " .. self.Category .. " logs ?", ULogs.config.Title, "Yes",function()
+			ULogs_Delete_Derma_Query( ULogs.translation.WantDelete.." " .. self.Category .. " "..string.lower(ULogs.translation.Logs).." ?", ULogs.config.Title, ULogs.translation.Yes,function()
 				
 				net.Start( "ULogs_Delete" )
 					net.WriteString( tostring( self.ID ) )
 				net.SendToServer()
 				
 				Main:Close()
-			end, "No", function() end)
+			end, ULogs.translation.No, function() end)
 			
 		end
 		List:AddItem( Button )
@@ -734,10 +734,10 @@ ULogs.OpenDeleteMenu = function()
 	List:AddItem( Button )
 	
 	local Button = vgui.Create( "ULogs_RDButton" )
-	Button:SetText( "Delete the x oldest logs" )
+	Button:SetText( ULogs.translation.DeleteOldestLogs )
 	Button.DoClick = function( self )
 		
-		ULogs_Derma_StringRequest( ULogs.config.Title, "How many logs do you want to delete ?", "", function( Number )
+		ULogs_Derma_StringRequest( ULogs.config.Title, ULogs.translation.LogsToDelete, "", function( Number )
 			Number = tonumber( Number )
 			if type( Number ) != "number" then return end
 			if Number <= 0 then return end
@@ -747,7 +747,7 @@ ULogs.OpenDeleteMenu = function()
 				net.WriteString( tostring( Number ) )
 			net.SendToServer()
 			
-		end, nil, "Delete" )
+		end, nil, ULogs.translation.Delete )
 		
 	end
 	List:AddItem( Button )
@@ -800,7 +800,7 @@ ULogs.OpenOptionsMenu = function()
 			Info = ULogs.GMTypes[ v.GM ].Name .. " "
 		end
 		Button.ID = v.ID
-		Button:SetText( "Show " .. Info .. v.Name .. " logs" )
+		Button:SetText( ULogs.translation.Show.." " .. Info .. v.Name .. " "..string.lower(ULogs.translation.Logs) )
 		Button:SetValue( !ULogs.Block[ v.ID ] )
 		Button.OnChange = function( self, Value )
 			
@@ -818,7 +818,7 @@ ULogs.OpenOptionsMenu = function()
 	end
 	
 	local Button = vgui.Create( "ULogs_DButton" )
-	Button:SetText( "Reset" )
+	Button:SetText( ULogs.translation.Reset )
 	Button.DoClick = function( self )
 		
 		for k, v in pairs( BlockOptions ) do
