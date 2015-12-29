@@ -282,7 +282,7 @@ ULogs.CanSee = function( Player )
 	
 	elseif ulx == nil then -- Or if ULX is not installed
 		
-		if table.HasValue(ULogs.CAMI.PlayersPrivileges.CanSee,Player) then return true end -- Check using CAMI
+		if ULogs_CAMI_PlayerAllowed(Player,"ULogs.CanSee") then return true end -- Check using CAMI
 		
 		return false
 	
@@ -314,7 +314,7 @@ ULogs.CanSeeIP = function( Player )
 	
 	elseif ulx == nil then -- Or if ULX is not installed
 		
-		if table.HasValue(ULogs.CAMI.PlayersPrivileges.SeeIP,Player) then return true end -- Check using CAMI
+		if ULogs_CAMI_PlayerAllowed(Player,"ULogs.SeeIP") then return true end -- Check using CAMI
 		
 		return false
 	
@@ -346,7 +346,7 @@ ULogs.CanDelete = function( Player )
 	
 	elseif ulx == nil then -- Or if ULX is not installed
 		
-		if table.HasValue(ULogs.CAMI.PlayersPrivileges.Delete,Player) then return true end -- Check using CAMI
+		if ULogs_CAMI_PlayerAllowed(Player,"ULogs.Delete") then return true end -- Check using CAMI
 		
 		return false
 	
@@ -636,37 +636,40 @@ ULogs.CAMI.PlayersPrivileges={} -- Create a table for see which players are allo
 ULogs.CAMI.PlayersPrivileges.CanSee={} -- Get players with access to ULogs.CanSee privilege.
 ULogs.CAMI.PlayersPrivileges.SeeIP={} -- Get players with access to ULogs.SeeIP.
 ULogs.CAMI.PlayersPrivileges.Delete={} -- Get players with access to ULogs.Delete.
-function ULogs_CAMI_UpdateCache(cache,ply,allowed)
-if cache != ULogs.CAMI.PlayersPrivileges.CanSee or cache != ULogs.CAMI.PlayersPrivileges.SeeIP or cache != ULogs.CAMI.PlayersPrivileges.Delete then return end
-if cache == ULogs.CAMI.PlayersPrivileges.CanSee then
+function ULogs_CAMI_UpdateCache(cache,ply,allowed,cached) -- Will be implemented
+if cache == ("ULogs.CanSee" or "ULogs.SeeIP" or "ULogs.Delete") then
+ULogs.CAMI.Cached=false -- Cache will be implemented too
+if cache == "ULogs.CanSee" then
 	if table.HasValue(ULogs.CAMI.PlayersPrivileges.CanSee,ply) and !allowed then
 		table.RemoveByValue(ULogs.CAMI.PlayersPrivileges.CanSee,ply)
-	else
+	elseif !table.HasValue(ULogs.CAMI.PlayersPrivileges.CanSee,ply) and allowed then
 		ULogs.CAMI.PlayersPrivileges.CanSee[#ULogs.CAMI.PlayersPrivileges.CanSee+1]=ply
 	end
-elseif cache == ULogs.CAMI.PlayersPrivileges.SeeIP then
+elseif cache == "ULogs.SeeIP" then
 	if table.HasValue(ULogs.CAMI.PlayersPrivileges.SeeIP,ply) and !allowed then
 		table.RemoveByValue(ULogs.CAMI.PlayersPrivileges.SeeIP,ply)
-	else
+	elseif !table.HasValue(ULogs.CAMI.PlayersPrivileges.SeeIP,ply) and allowed then
 		ULogs.CAMI.PlayersPrivileges.SeeIP[#ULogs.CAMI.PlayersPrivileges.SeeIP+1]=ply
 	end
-elseif cache == ULogs.CAMI.PlayersPrivileges.Delete then
+elseif cache == "ULogs.Delete" then
 	if table.HasValue(ULogs.CAMI.PlayersPrivileges.Delete,ply) and !allowed then
 		table.RemoveByValue(ULogs.CAMI.PlayersPrivileges.Delete,ply)
-	else
+	elseif !table.HasValue(ULogs.CAMI.PlayersPrivileges.Delete,ply) and allowed then
 		ULogs.CAMI.PlayersPrivileges.Delete[#ULogs.CAMI.PlayersPrivileges.Delete+1]=ply
 	end
+end
+if (cached == true) then ULogs.CAMI.Cached=true end
+else
+return
 end
 end
 CAMI.GetPlayersWithAccess("ULogs.CanSee",function(players) ULogs.CAMI.PlayersPrivileges.CanSee=players end) -- Cache CAMI's callbacks
 CAMI.GetPlayersWithAccess("ULogs.SeeIP",function(players) ULogs.CAMI.PlayersPrivileges.SeeIP=players end)
-CAMI.GetPlayersWithAccess("ULogs.Delete",function(players) ULogs.CAMI.PlayersPrivileges.Delete=players end) -- Done
-hook.Add("CAMI.PlayerUsergroupChanged","ULogs.CAMI.UpdateCache",function(ply)
--- Here we go, the cache of CAMI is now invalid because CAMI has notified a change about a player.
--- This cache will now be updated for checking if the player have access to a ULogs privilege, or not.
-CAMI.PlayerHasAccess(ply,"ULogs.CanSee",function(allowed) ULogs_CAMI_UpdateCache(ULogs.CAMI.PlayersPrivileges.CanSee,ply,allowed) end)
-CAMI.PlayerHasAccess(ply,"ULogs.SeeIP",function(allowed) ULogs_CAMI_UpdateCache(ULogs.CAMI.PlayersPrivileges.SeeIP,ply,allowed) end)
-CAMI.PlayerHasAccess(ply,"ULogs.Delete",function(allowed) ULogs_CAMI_UpdateCache(ULogs.CAMI.PlayersPrivileges.Delete,ply,allowed) end)
+CAMI.GetPlayersWithAccess("ULogs.Delete",function(players) ULogs.CAMI.PlayersPrivileges.Delete=players ULogs.CAMI.Cached=true end) -- Done
+timer.Create("ULogs.CAMI.UpdateCache",10,0,function()
+CAMI.GetPlayersWithAccess("ULogs.CanSee",function(players) ULogs.CAMI.PlayersPrivileges.CanSee=players end)
+CAMI.GetPlayersWithAccess("ULogs.SeeIP",function(players) ULogs.CAMI.PlayersPrivileges.SeeIP=players end)
+CAMI.GetPlayersWithAccess("ULogs.Delete",function(players) ULogs.CAMI.PlayersPrivileges.Delete=players ULogs.CAMI.Cached=true end)
 end)
 
 
