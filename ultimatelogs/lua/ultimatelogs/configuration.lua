@@ -22,6 +22,7 @@ ULogs.config = {}                                      -- Please don't edit this
 
 
 ULogs.config.Title          = "Ultimate Logs"          -- The addon name
+ULogs.config.Language	    = "FR"		       -- Language (ISO 639-1)
 
 ULogs.config.TableName      = "ulogs"                  -- The database table name
 
