@@ -19,14 +19,14 @@
 local INDEX = 5
 local GM = 0
 
-ULogs.AddLogType( INDEX, GM, "Damage/Kill", function( Player, Attacker )
+ULogs.AddLogType( INDEX, GM, ULogs.translation.DamageKill, function( Player, Attacker )
 	
 	if !Player or !Player:IsValid() or !Player:IsPlayer() then return end
 	
 	local Informations = {}
 	local Base = ULogs.RegisterBase( Player )
 	local Data = {}
-	Data[ 1 ] = "Victim " .. Player:Name()
+	Data[ 1 ] = ULogs.translation.Victim.." " .. Player:Name()
 	Data[ 2 ] = {}
 	table.Add( Data[ 2 ], Base )
 	table.insert( Informations, Data )
@@ -34,7 +34,7 @@ ULogs.AddLogType( INDEX, GM, "Damage/Kill", function( Player, Attacker )
 	if Attacker and type( Attacker ) != "string" and Attacker:IsValid() and Attacker:IsPlayer() then
 		local Base = ULogs.RegisterBase( Attacker )
 		local Data = {}
-		Data[ 1 ] = "Attacker " .. Attacker:Name()
+		Data[ 1 ] = ULogs.translation.Attacker.." " .. Attacker:Name()
 		Data[ 2 ] = {}
 		table.Add( Data[ 2 ], Base )
 		table.insert( Informations, Data )
@@ -79,7 +79,7 @@ hook.Add( "EntityTakeDamage", "ULogs_EntityTakeDamage", function( Player, DmgInf
 			end
 		end
 		if DmgInfo:GetInflictor():IsVehicle() then
-			Attacker = "A vehicle"
+			Attacker = ULogs.translation.Vehicle
 			Weapon = DmgInfo:GetInflictor()
 			if Weapon:GetDriver() and Weapon:GetDriver():IsValid() then
 				Attacker = Weapon:GetDriver()
@@ -101,12 +101,12 @@ hook.Add( "EntityTakeDamage", "ULogs_EntityTakeDamage", function( Player, DmgInf
 	end
 	
 	if !Attacker or type( Attacker ) == "string" or !Attacker:IsValid() then
-		Attacker = "Something"
+		Attacker = ULogs.translation.Something
 	end
 	
 	if DmgInfo:IsFallDamage() then
-		Weapon = "fall damage"
-		Attacker = "The world"
+		Weapon = string.lower(ULogs.translation.FallDamage)
+		Attacker = ULogs.translation.World
 	end
 	
 	local AttackerInfo = Attacker
@@ -123,10 +123,10 @@ hook.Add( "EntityTakeDamage", "ULogs_EntityTakeDamage", function( Player, DmgInf
 	end
 	
 	if !Player:Alive() or ( HealthDamage <= 0 and Player:Armor() <= 0 ) then
-		ULogs.AddLog( INDEX, "[KILL] " .. AttackerInfo .. " killed " .. ULogs.PlayerInfo( Player ) .. " with " .. Damage .. " damage using " .. WeaponInfo,
+		ULogs.AddLog( INDEX, ULogs.translation.Kill.." " .. AttackerInfo .. " "..string.lower(ULogs.translation.Killed).." " .. ULogs.PlayerInfo( Player ) .. " "..string.lower(ULogs.translation.With).." " .. Damage .. " "..string.lower(ULogs.translation.DamageUsing).." " .. WeaponInfo,
 			ULogs.Register( INDEX, Player, Attacker ) )
 	else
-		ULogs.AddLog( INDEX, "[HURT] " .. AttackerInfo .. " hurt " .. ULogs.PlayerInfo( Player ) .. " with " .. Damage .. " damage using " .. WeaponInfo,
+		ULogs.AddLog( INDEX, ULogs.translation.Hurt.." " .. AttackerInfo .. " "..string.lower(ULogs.translation.hurt).." " .. ULogs.PlayerInfo( Player ) .. " "..string.lower(ULogs.translation.With).." " .. Damage .. " "..string.lower(ULogs.translation.DamageUsing).." " .. WeaponInfo,
 			ULogs.Register( INDEX, Player, Attacker ) )
 	end
 	
@@ -138,7 +138,7 @@ hook.Add( "PlayerDeath", "ULogs_PlayerDeath", function( Player, _, Killer )
 	if !Killer or !Killer:IsValid() or !Killer:IsPlayer() then return end
 	
 	if Killer == Player then
-		ULogs.AddLog( INDEX, "[KILL] " .. ULogs.PlayerInfo( Player ) .. " killed himself",
+		ULogs.AddLog( INDEX, ULogs.translation.Kill.." " .. ULogs.PlayerInfo( Player ) .. " "..string.lower(ULogs.translation.KilledHimself),
 			ULogs.Register( INDEX, Player ) )
 	end
 	
