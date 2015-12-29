@@ -29,6 +29,7 @@ if SERVER then
 	
 	include( "ultimatelogs/configurationMySQL.lua" )
 	include( "ultimatelogs/server/mysqlite.lua" )
+	include( "ultimatelogs/server/sv_language.lua" )
 	include( "ultimatelogs/server/sv_ultimatelogs.lua" )
 	
 	for k, v in pairs( file.Find( "ultimatelogs/client/*.lua", "LUA" ) ) do
