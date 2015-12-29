@@ -101,18 +101,18 @@ ULogs.RegisterBase  = function( Player )
 	
 	if type( Player.SteamName ) == "function" then
 		
-		table.insert( Data, { "Name : " .. Player:Name(), Player:Name() } )
+		table.insert( Data, { ULogs.translation.Name.." : " .. Player:Name(), Player:Name() } )
 		table.insert( Data, { "SteamName : " .. Player:SteamName(), Player:SteamName() } )
 		
 	else
 		
-		table.insert( Data, { "Name : " .. Player:Name(), Player:Name() } )
+		table.insert( Data, { ULogs.translation.Name.." : " .. Player:Name(), Player:Name() } )
 		
 	end
 	
 	if type( Player.GetBystanderName ) == "function" then
 		
-		table.insert( Data, { "Murder Name : " .. Player:GetBystanderName(), Player:GetBystanderName() } )
+		table.insert( Data, { ULogs.translation.MurderName.." : " .. Player:GetBystanderName(), Player:GetBystanderName() } )
 		
 	end
 	
@@ -121,23 +121,23 @@ ULogs.RegisterBase  = function( Player )
 	
 	if type( Player.GetRoleString ) == "function" then
 		
-		table.insert( Data, { "TTT Role : " .. Player:GetRoleString(), Player:GetRoleString() } )
+		table.insert( Data, { ULogs.translation.TTTRole.." : " .. Player:GetRoleString(), Player:GetRoleString() } )
 		
 	elseif type( Player.GetMurderer ) == "function" then
 		
-		local Info = "bystander"
-		if Player:GetMurderer() then Info = "murderer" end
+		local Info = ULogs.translation.bystander
+		if Player:GetMurderer() then Info = ULogs.translation.Murderer end
 		
-		table.insert( Data, { "Murder Role : " .. Info, Info } )
+		table.insert( Data, { ULogs.translation.MurderRole.." : " .. Info, Info } )
 		
 	elseif type( Player.SetPlayerClass ) == "function" then
 		
 		local Info = Player:GetNWString( "Class", "unknown" )
-		table.insert( Data, { "PH Role : " .. Info, Info } )
+		table.insert( Data, { ULogs.translation.PHRole.." : " .. Info, Info } )
 		
 	else
 		
-		table.insert( Data, { "Team : " .. team.GetName( Player:Team() ), team.GetName( Player:Team() ) } )
+		table.insert( Data, { ULogs.translation.Team.." : " .. team.GetName( Player:Team() ), team.GetName( Player:Team() ) } )
 		
 	end
 	
@@ -157,8 +157,8 @@ ULogs.PlayerInfo = function( Player )
 		
 	elseif type( Player.GetMurderer ) == "function" then
 		
-		Info = "bystander"
-		if Player:GetMurderer() then Info = "murderer" end
+		Info = ULogs.translation.bystander
+		if Player:GetMurderer() then Info = ULogs.translation.Murderer end
 		
 	elseif type( Player.SetPlayerClass ) == "function" then
 		
@@ -273,15 +273,14 @@ end
 ULogs.CanSee = function( Player )
 	
 	if !Player or !Player:IsValid() or !Player:IsPlayer() then return false end
-	
+
 	if ULogs.config.OnlyUseCustom then -- If OnlyUseCustom
-		
 		if ULogs.config.CanSeeCustom( Player ) then return true end
 		
 		return false
 	
 	elseif ulx == nil then -- Or if ULX is not installed
-		
+
 		if ULogs_CAMI_PlayerAllowed(Player,"ULogs.CanSee") then return true end -- Check using CAMI
 		
 		return false
@@ -371,7 +370,7 @@ ULogs.OpenMenu = function( Player )
 	if !Player or !Player:IsValid() or !Player:IsPlayer() then return end
 	if !ULogs.CanSee( Player ) then
 		
-		ULogs.Notify( Player, "You are not allowed to open the logs menu !" )
+		ULogs.Notify( Player, ULogs.translation.Notify.OpenMenuNotAllowed )
 		return
 		
 	end
@@ -522,7 +521,7 @@ net.Receive( "ULogs_Request", function( _, Player )
 							
 							if ULogs.IsIP( b[ 1 ] ) then
 								
-								v.informations[ x ][ 2 ][ l ][ 1 ] = "IP : XXX.XXX.XXX.XXX (restricted)"
+								v.informations[ x ][ 2 ][ l ][ 1 ] = ULogs.translation.RestrictedIP
 								v.informations[ x ][ 2 ][ l ][ 2 ] = "XXX.XXX.XXX.XXX"
 								
 							end
@@ -573,7 +572,7 @@ net.Receive( "ULogs_Delete", function( _, Player )
 	
 	ULogs.Query( "DELETE FROM " .. ULogs.config.TableName .. Query, function()
 		
-		ULogs.Notify( Player, "Successfully deleted logs !" )
+		ULogs.Notify( Player, ULogs.translation.Notify.DeletedSuccessfully )
 		
 	end)
 	
@@ -589,7 +588,7 @@ net.Receive( "ULogs_DeleteOldest", function( _, Player )
 	
 	ULogs.Query( "DELETE FROM " .. ULogs.config.TableName .. " WHERE id IN( SELECT id FROM " .. ULogs.config.TableName .. " ORDER BY id ASC LIMIT " .. Number .. ")", function()
 		
-		ULogs.Notify( Player, "Successfully deleted logs !" )
+		ULogs.Notify( Player, ULogs.translation.Notify.DeletedSuccessfully )
 		
 	end)
 	
@@ -622,7 +621,7 @@ end)
 --------------------------------------------------------------------------------------------------------------------
 -- CAMI implementation by Gedo789 - V1
 -- Purposes: Register ULogs privileges to CAMI and keep a copy of players who got rights for using ULogs privileges.
---           Update the cache if a player has changed in CAMI.
+--           Update the cache if a player has changed in CAMI. Wait a return from CAMI.
 --           CAMI is a interface for compatibility with multiples admin mods which support CAMI.
 --------------------------------------------------------------------------------------------------------------------
 
@@ -636,6 +635,17 @@ ULogs.CAMI.PlayersPrivileges={} -- Create a table for see which players are allo
 ULogs.CAMI.PlayersPrivileges.CanSee={} -- Get players with access to ULogs.CanSee privilege.
 ULogs.CAMI.PlayersPrivileges.SeeIP={} -- Get players with access to ULogs.SeeIP.
 ULogs.CAMI.PlayersPrivileges.Delete={} -- Get players with access to ULogs.Delete.
+ULogs.CAMI.Cached=false -- Is every CAMI's callbacks cached?
+function ULogs_CAMI_PlayerAllowed(ply,privilege)
+if privilege == ("ULogs.CanSee" or "ULogs.SeeIP" or "ULogs.Delete") then
+if privilege == "ULogs.CanSee" then if table.HasValue(ULogs.CAMI.PlayersPrivileges.CanSee,ply) then return true end end
+if privilege == "ULogs.SeeIP" then if table.HasValue(ULogs.CAMI.PlayersPrivileges.SeeIP,ply) then return true end end
+if privilege == "ULogs.Delete" then if table.HasValue(ULogs.CAMI.PlayersPrivileges.Delete,ply) then return true end end
+return false
+else
+return
+end
+end
 function ULogs_CAMI_UpdateCache(cache,ply,allowed,cached) -- Will be implemented
 if cache == ("ULogs.CanSee" or "ULogs.SeeIP" or "ULogs.Delete") then
 ULogs.CAMI.Cached=false -- Cache will be implemented too
