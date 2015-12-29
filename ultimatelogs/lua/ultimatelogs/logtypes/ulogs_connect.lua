@@ -19,7 +19,7 @@
 local INDEX = 4
 local GM = 0
 
-ULogs.AddLogType( INDEX, GM, "(Dis)Connect", function( Player )
+ULogs.AddLogType( INDEX, GM, ULogs.translation.ConnectMenu, function( Player )
 	
 	if !Player or !Player:IsValid() or !Player:IsPlayer() then return end
 	
@@ -39,7 +39,7 @@ hook.Add( "PlayerInitialSpawn", "ULogs_PlayerInitialSpawn", function( Player )
 	
 	if !Player or !Player:IsValid() or !Player:IsPlayer() then return end
 	
-	ULogs.AddLog( INDEX, ULogs.PlayerInfo( Player ) .. " connected from the server",
+	ULogs.AddLog( INDEX, ULogs.PlayerInfo( Player ) .. " "..string.lower(ULogs.translation.Connected),
 		ULogs.Register( INDEX, Player ) )
 	
 end)
@@ -48,7 +48,7 @@ hook.Add( "PlayerDisconnected", "ULogs_PlayerDisconnected", function( Player )
 	
 	if !Player or !Player:IsValid() or !Player:IsPlayer() then return end
 	
-	ULogs.AddLog( INDEX, ULogs.PlayerInfo( Player ) .. " disconnected from the server",
+	ULogs.AddLog( INDEX, ULogs.PlayerInfo( Player ) .. " "..string.lower(ULogs.translation.Disconnected),
 		ULogs.Register( INDEX, Player ) )
 	
 end)
