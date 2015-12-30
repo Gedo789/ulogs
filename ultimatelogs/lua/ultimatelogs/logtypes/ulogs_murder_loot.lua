@@ -19,7 +19,7 @@
 local INDEX = 21
 local GM = 4
 
-ULogs.AddLogType( INDEX, GM, "Loot", function( Player )
+ULogs.AddLogType( INDEX, GM, ULogs.translation.Loot, function( Player )
 	
 	if !Player or !Player:IsValid() or !Player:IsPlayer() then return end
 	
@@ -41,7 +41,7 @@ hook.Add( "PlayerPickupLoot", "ULogs_PlayerPickupLoot", function( Player, Loot )
 	if !Player or !Player:IsValid() or !Player:IsPlayer() then return end
 	if !Loot or !Loot:IsValid() then return end
 	
-	ULogs.AddLog( INDEX, ULogs.PlayerInfo( Player ) .. " picked up a loot", {} )
+	ULogs.AddLog( INDEX, ULogs.PlayerInfo( Player ) .. " "..string.lower(ULogs.translation.PickedLoot), {} )
 	
 end)
 
