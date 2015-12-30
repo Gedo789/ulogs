@@ -19,13 +19,13 @@
 local INDEX = 20
 local GM = 3
 
-ULogs.AddLogType( INDEX, GM, "Round state", function() end)
+ULogs.AddLogType( INDEX, GM, ULogs.translation.RoundState, function() end)
 
 hook.Add( "TTTPrepareRound", "ULogs_TTTPrepareRound", function()
 	
 	if !SERVER then return end
 	
-	ULogs.AddLog( INDEX, "The preparing phase begins", {} )
+	ULogs.AddLog( INDEX, ULogs.translation.PreparingPhaseBegins, {} )
 	
 end)
 
@@ -33,7 +33,7 @@ hook.Add( "TTTBeginRound", "ULogs_TTTBeginRound", function()
 	
 	if !SERVER then return end
 	
-	ULogs.AddLog( INDEX, "The round begins", {} )
+	ULogs.AddLog( INDEX, ULogs.translation.RoundBegins, {} )
 	
 end)
 
@@ -42,23 +42,23 @@ hook.Add( "TTTEndRound", "ULogs_TTTEndRound", function( Result )
 	if !SERVER then return end
 	if !Result then return end
 	
-	local Info = "Nobody has won"
+	local Info = ULogs.translation.NobodyWon
 	
 	if Result == 2 then
 		
-		Info = "The traitors have won"
+		Info = ULogs.translation.TraitorsWon
 		
 	elseif Result == 3 then
 		
-		Info = "The innocents have won"
+		Info = ULogs.translation.InnocentsWon
 		
 	elseif Result == 4 then
 		
-		Info = "The timelimit is up"
+		Info = ULogs.translation.TimelimitUp
 		
 	end
 	
-	ULogs.AddLog( INDEX, "The round ended. " .. Info, {} )
+	ULogs.AddLog( INDEX, ULogs.translation.RoundEnded..". " .. Info, {} )
 	
 end)
 
