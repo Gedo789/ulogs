@@ -26,7 +26,7 @@ ULogs.AddLogType( INDEX, GM, "Toolgun", function( Tool, Player )
 	
 	local Informations = {}
 	local Base = ULogs.RegisterBase( Player )
-	table.insert( Informations, { "Copy tool", Tool } )
+	table.insert( Informations, { ULogs.translation.CopyTool, Tool } )
 	local Data = {}
 	Data[ 1 ] = Player:Name()
 	Data[ 2 ] = {}
@@ -43,7 +43,7 @@ hook.Add( "CanTool", "ULogs_CanTool", function( Player, _, Tool )
 	if !Player or !Player:IsValid() or !Player:IsPlayer() then return end
 	if !Tool then return end
 	
-	ULogs.AddLog( INDEX, ULogs.PlayerInfo( Player ) .. " used '" .. Tool .. "'",
+	ULogs.AddLog( INDEX, ULogs.PlayerInfo( Player ) .. " "..string.lower(ULogs.translation.Used).." '" .. Tool .. "'",
 		ULogs.Register( INDEX, Tool, Player ) )
 	
 end)
