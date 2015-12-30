@@ -42,7 +42,7 @@ hook.Add( "onPlayerChangedName", "ULogs_onPlayerChangedName", function( Player, 
 	if !OldName then return end
 	if !NewName then return end
 	
-	ULogs.AddLog( INDEX, ULogs.PlayerInfo( Player ) .. " "..ULogs.translation.ChangedName.." '" .. OldName .. "' "..ULogs.translation.To.." '" .. NewName .. "'",
+	ULogs.AddLog( INDEX, ULogs.PlayerInfo( Player ) .. " "..string.lower(ULogs.translation.ChangedName).." '" .. OldName .. "' "..string.lower(ULogs.translation.To).." '" .. NewName .. "'",
 		ULogs.Register( INDEX, Player ) )
 	
 end)
