@@ -19,13 +19,13 @@
 local INDEX = 22
 local GM = 4
 
-ULogs.AddLogType( INDEX, GM, "Round state", function() end)
+ULogs.AddLogType( INDEX, GM, ULogs.translation.RoundState, function() end)
 
 hook.Add( "OnStartRound", "ULogs_OnStartRound", function()
 	
 	if !SERVER then return end
 	
-	ULogs.AddLog( INDEX, "The round begins", {} )
+	ULogs.AddLog( INDEX, ULogs.translation.RoundBegins, {} )
 	
 end)
 
@@ -33,7 +33,7 @@ hook.Add( "OnEndRound", "ULogs_OnEndRound", function()
 	
 	if !SERVER then return end
 	
-	ULogs.AddLog( INDEX, "The round ended", {} )
+	ULogs.AddLog( INDEX, ULogs.translation.RoundEnded, {} )
 	
 end)
 
