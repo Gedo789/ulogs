@@ -42,7 +42,7 @@ hook.Add( "playerBoughtCustomEntity", "ULogs_playerBoughtCustomEntity", function
 	if !EntTab then return end
 	if !EntTab.name or !EntTab.price then return end
 	
-	ULogs.AddLog( INDEX, ULogs.PlayerInfo( Player ) .. " "..ULogs.translation.Bought.." '" .. EntTab.name .. "' "..ULogs.translation.For.." $" .. EntTab.price,
+	ULogs.AddLog( INDEX, ULogs.PlayerInfo( Player ) .. " "..string.lower(ULogs.translation.Bought).." '" .. EntTab.name .. "' "..string.lower(ULogs.translation.For).." $" .. EntTab.price,
 		ULogs.Register( INDEX, Player ) )
 	
 end)
@@ -54,7 +54,7 @@ hook.Add( "playerBoughtPistol", "ULogs_playerBoughtPistol", function( Player, En
 	if !EntTab then return end
 	if !EntTab.name or !EntTab.price then return end
 	
-	ULogs.AddLog( INDEX, ULogs.PlayerInfo( Player ) .. " "..ULogs.translation.Bought.." '" .. EntTab.name .. "' "..ULogs.translation.For.." $" .. EntTab.price,
+	ULogs.AddLog( INDEX, ULogs.PlayerInfo( Player ) .. " "..string.lower(ULogs.translation.Bought).." '" .. EntTab.name .. "' "..string.lower(ULogs.translation.For).." $" .. EntTab.price,
 		ULogs.Register( INDEX, Player ) )
 	
 end)
@@ -66,7 +66,7 @@ hook.Add( "playerBoughtShipment", "ULogs_playerBoughtShipment", function( Player
 	if !EntTab then return end
 	if !EntTab.name or !EntTab.price then return end
 	
-	ULogs.AddLog( INDEX, ULogs.PlayerInfo( Player ) .. " "..ULogs.translation.Bought.." '" .. EntTab.name .. "' "..ULogs.translation.Shipment.." "..ULogs.translation.For.." $" .. EntTab.price,
+	ULogs.AddLog( INDEX, ULogs.PlayerInfo( Player ) .. " "..string.lower(ULogs.translation.Bought).." '" .. EntTab.name .. "' "..string.lower(ULogs.translation.Shipment).." "..string.lower(ULogs.translation.For).." $" .. EntTab.price,
 		ULogs.Register( INDEX, Player ) )
 	
 end)
