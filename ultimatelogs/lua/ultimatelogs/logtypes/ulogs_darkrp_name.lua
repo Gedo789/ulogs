@@ -19,7 +19,7 @@
 local INDEX = 12
 local GM = 2
 
-ULogs.AddLogType( INDEX, GM, "Name", function( Player )
+ULogs.AddLogType( INDEX, GM, ULogs.translation.Name, function( Player )
 	
 	if !Player or !Player:IsValid() or !Player:IsPlayer() then return end
 	
@@ -42,7 +42,7 @@ hook.Add( "onPlayerChangedName", "ULogs_onPlayerChangedName", function( Player, 
 	if !OldName then return end
 	if !NewName then return end
 	
-	ULogs.AddLog( INDEX, ULogs.PlayerInfo( Player ) .. " changed his name from '" .. OldName .. "' to '" .. NewName .. "'",
+	ULogs.AddLog( INDEX, ULogs.PlayerInfo( Player ) .. " "..ULogs.translation.ChangedName.." '" .. OldName .. "' "..ULogs.translation.To.." '" .. NewName .. "'",
 		ULogs.Register( INDEX, Player ) )
 	
 end)
