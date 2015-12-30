@@ -19,7 +19,7 @@
 local INDEX = 17
 local GM = 3
 
-ULogs.AddLogType( INDEX, GM, "DNA", function( Player, Target )
+ULogs.AddLogType( INDEX, GM, ULogs.translation.DNA, function( Player, Target )
 	
 	if !Player or !Player:IsValid() or !Player:IsPlayer() then return end
 	if !Target or !Target:IsValid() or !Target:IsPlayer() then return end
@@ -49,7 +49,7 @@ hook.Add( "TTTFoundDNA", "ULogs_TTTFoundDNA", function( Player, Target )
 	if !Player or !Player:IsValid() or !Player:IsPlayer() then return end
 	if !Target or !Target:IsValid() or !Target:IsPlayer() then return end
 	
-	ULogs.AddLog( INDEX, ULogs.PlayerInfo( Player ) .. " found the DNA of " .. ULogs.PlayerInfo( Target ),
+	ULogs.AddLog( INDEX, ULogs.PlayerInfo( Player ) .. " "..ULogs.translation.FoundDNA.." " .. ULogs.PlayerInfo( Target ),
 		ULogs.Register( INDEX, Player, Target ) )
 	
 end)
