@@ -19,7 +19,7 @@
 local INDEX = 19
 local GM = 3
 
-ULogs.AddLogType( INDEX, GM, "Purchase", function( Player )
+ULogs.AddLogType( INDEX, GM, ULogs.translation.Purchase, function( Player )
 	
 	if !Player or !Player:IsValid() or !Player:IsPlayer() then return end
 	
@@ -39,9 +39,9 @@ hook.Add( "TTTOrderedEquipment", "ULogs_TTTOrderedEquipment", function( Player, 
 	
 	if !SERVER then return end
 	if !Player or !Player:IsValid() or !Player:IsPlayer() then return end
-	if !Equipment then Equipment = "unknown item" end
+	if !Equipment then Equipment = string.lower(ULogs.translation.UnknownItem) end
 	
-	ULogs.AddLog( INDEX, ULogs.PlayerInfo( Player ) .. " ordered '" .. tostring( Equipment ) .. "'",
+	ULogs.AddLog( INDEX, ULogs.PlayerInfo( Player ) .. " "..string.lower(ULogs.translation.Ordered).." '" .. tostring( Equipment ) .. "'",
 		ULogs.Register( INDEX, Player ) )
 	
 end)
