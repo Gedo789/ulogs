@@ -53,10 +53,43 @@ ULogs.translation.DamageUsing="Damage Using"
 ULogs.translation.Hurt="[HURT]"
 ULogs.translation.hurt="Hurt"
 ULogs.translation.KilledHimself="Killed Himself"
+-- ulogs_darkrp_name.lua
+ULogs.translation.Name="Name"
+ULogs.translation.ChangedName="Changed his name from"
+-- ulogs_darkrp_purchase.lua
+ULogs.translation.Purchase="Purchase"
+ULogs.translation.Bought="Bought"
+ULogs.translation.For="For"
+ULogs.translation.Shipment="Shipment"
+-- ulogs_murder_loot.lua
+ULogs.translation.Loot="Loot"
+ULogs.translation.PickedLoot="Picked up a loot"
+-- ulogs_murder_roundstate.lua
+ULogs.translation.RoundState="Round state"
+ULogs.translation.RoundBegins="The round begins"
+ULogs.translation.RoundEnded="The round ended"
+-- ulogs_sbox_toolgun.lua
+ULogs.translation.CopyTool="Copy tool"
+ULogs.translation.Used="Used"
 -- ulogs_team.lua
 ULogs.translation.Team="Team"
 ULogs.translation.ChangedTeam="Changed his team from"
 ULogs.translation.To="To"
+-- ulogs_ttt_body.lua
+ULogs.translation.Body="Body"
+ULogs.translation.FoundBody="Found the body of"
+-- ulogs_ttt_dna.lua
+ULogs.translation.DNA="DNA"
+ULogs.translation.FoundDNA="Found the DNA of"
+-- ulogs_ttt_purchase.lua
+ULogs.translation.UnknownItem="Unknown item"
+ULogs.translation.Ordered="Ordered"
+-- ulogs_ttt_roundstate.lua
+ULogs.translation.PreparingPhaseBegins="The preparing phase begins"
+ULogs.translation.NobodyWon="Nobody has won"
+ULogs.translation.TraitorsWon="The traitors have won"
+ULogs.translation.InnocentsWon="The innocents have won"
+ULogs.translation.TimelimitUp="The timelimit is up"
 elseif string.upper(ULogs.config.Language) == "FR" then
 -- cl_ultimatelogs.lua
 ULogs.translation.Copied="Copié"
@@ -111,10 +144,43 @@ ULogs.translation.DamageUsing="De Dêgats en Utilisant"
 ULogs.translation.Hurt="[BLESSURE]"
 ULogs.translation.hurt="Blessé"
 ULogs.translation.KilledHimself="S'est tué lui-même"
+-- ulogs_darkrp_name.lua
+ULogs.translation.Name="Nom"
+ULogs.translation.ChangedName="A changé son nom de"
+-- ulogs_darkrp_purchase.lua
+ULogs.translation.Purchase="Achats"
+ULogs.translation.Bought="A acheté"
+ULogs.translation.For="Pour"
+ULogs.translation.Shipment="Des équipements"
+-- ulogs_murder_loot.lua
+ULogs.translation.Loot="Butin"
+ULogs.translation.PickedLoot="A pris un butin"
+-- ulogs_murder_roundstate.lua
+ULogs.translation.RoundState="Rapport de manches"
+ULogs.translation.RoundBegins="La manche commence"
+ULogs.translation.RoundEnded="La manche est terminée"
+-- ulogs_sbox_toolgun.lua
+ULogs.translation.CopyTool="Copier l'outil"
+ULogs.translation.Used="A utilisé un(e)"
 -- ulogs_team.lua
 ULogs.translation.Team="Équipe"
 ULogs.translation.ChangedTeam="a changé son équipe de"
 ULogs.translation.To="À"
+-- ulogs_ttt_body.lua
+ULogs.translation.Body="Corps"
+ULogs.translation.FoundBody="A trouvé le corps de"
+-- ulogs_ttt_dna.lua
+ULogs.translation.DNA="ADN"
+ULogs.translation.FoundDNA="A trouvé l'ADN de"
+-- ulogs_ttt_purchase.lua
+ULogs.translation.UnknownItem="Article inconnu(e)"
+ULogs.translation.Ordered="A commandé un(e)"
+-- ulogs_ttt_roundstate.lua
+ULogs.translation.PreparingPhaseBegins="La phase de préparation commence"
+ULogs.translation.NobodyWon="Personne n'a gagné"
+ULogs.translation.TraitorsWon="Les traitres ont gagnés"
+ULogs.translation.InnocentsWon="Les innocents ont gagnés"
+ULogs.translation.TimelimitUp="Le temps est écoulé"
 else
 -- cl_ultimatelogs.lua
 ULogs.translation.Copied="Copied"
@@ -169,8 +235,41 @@ ULogs.translation.DamageUsing="Damage Using"
 ULogs.translation.Hurt="[HURT]"
 ULogs.translation.hurt="Hurt"
 ULogs.translation.KilledHimself="Killed Himself"
+-- ulogs_darkrp_name.lua
+ULogs.translation.Name="Name"
+ULogs.translation.ChangedName="Changed his name from"
+-- ulogs_darkrp_purchase.lua
+ULogs.translation.Purchase="Purchase"
+ULogs.translation.Bought="Bought"
+ULogs.translation.For="For"
+ULogs.translation.Shipment="Shipment"
+-- ulogs_murder_loot.lua
+ULogs.translation.Loot="Loot"
+ULogs.translation.PickedLoot="Picked up a loot"
+-- ulogs_murder_roundstate.lua
+ULogs.translation.RoundState="Round state"
+ULogs.translation.RoundBegins="The round begins"
+ULogs.translation.RoundEnded="The round ended"
+-- ulogs_sbox_toolgun.lua
+ULogs.translation.CopyTool="Copy tool"
+ULogs.translation.Used="Used"
 -- ulogs_team.lua
 ULogs.translation.Team="Team"
 ULogs.translation.ChangedTeam="Changed his team from"
 ULogs.translation.To="To"
+-- ulogs_ttt_body.lua
+ULogs.translation.Body="Body"
+ULogs.translation.FoundBody="Found the body of"
+-- ulogs_ttt_dna.lua
+ULogs.translation.DNA="DNA"
+ULogs.translation.FoundDNA="Found the DNA of"
+-- ulogs_ttt_purchase.lua
+ULogs.translation.UnknownItem="Unknown item"
+ULogs.translation.Ordered="Ordered"
+-- ulogs_ttt_roundstate.lua
+ULogs.translation.PreparingPhaseBegins="The preparing phase begins"
+ULogs.translation.NobodyWon="Nobody has won"
+ULogs.translation.TraitorsWon="The traitors have won"
+ULogs.translation.InnocentsWon="The innocents have won"
+ULogs.translation.TimelimitUp="The timelimit is up"
 end
