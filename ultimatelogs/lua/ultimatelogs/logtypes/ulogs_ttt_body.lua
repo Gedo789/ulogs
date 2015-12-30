@@ -19,7 +19,7 @@
 local INDEX = 16
 local GM = 3
 
-ULogs.AddLogType( INDEX, GM, "Body", function( Player, Target )
+ULogs.AddLogType( INDEX, GM, ULogs.translation.Body, function( Player, Target )
 	
 	if !Player or !Player:IsValid() or !Player:IsPlayer() then return end
 	if !Target or !Target:IsValid() or !Target:IsPlayer() then return end
@@ -49,7 +49,7 @@ hook.Add( "TTTBodyFound", "ULogs_TTTBodyFound", function( Player, Target )
 	if !Player or !Player:IsValid() or !Player:IsPlayer() then return end
 	if !Target or !Target:IsValid() or !Target:IsPlayer() then return end
 	
-	ULogs.AddLog( INDEX, ULogs.PlayerInfo( Player ) .. " found the body of " .. ULogs.PlayerInfo( Target ),
+	ULogs.AddLog( INDEX, ULogs.PlayerInfo( Player ) .. " "..string.lower(ULogs.translation.FoundBody).." " .. ULogs.PlayerInfo( Target ),
 		ULogs.Register( INDEX, Player, Target ) )
 	
 end)
